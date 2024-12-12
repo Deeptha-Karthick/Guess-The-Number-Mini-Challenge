@@ -3,11 +3,10 @@ import { useRef, useState } from "react";
 
 export default function App() {
   const [relativeValue, setRelativeValue] = useState("");
+  const [guess, setGuess] = useState(1);
   const [currentNumber, setCurrentNumber] = useState(() =>
     Math.floor(Math.random() * 101)
   );
-
-  const guess = useRef(1); // Using useRef for guess
 
   const MessageToDisplay = () => {
     if (relativeValue === "greater") {
@@ -34,10 +33,9 @@ export default function App() {
   };
 
   const CheckValue = () => {
-    const guessValue = Number(guess.current); // Convert ref value to a number
-    if (guessValue > currentNumber) {
+    if (guess > currentNumber) {
       setRelativeValue("greater");
-    } else if (guessValue < currentNumber) {
+    } else if (guess < currentNumber) {
       setRelativeValue("lesser");
     } else {
       setRelativeValue("equal");
@@ -58,8 +56,8 @@ export default function App() {
           type="number"
           min="0"
           max="100"
-          defaultValue={guess.current} // Use defaultValue to prevent re-renders
-          onChange={(e) => (guess.current = +e.target.value)} // Update the ref value
+          value={guess} // Use defaultValue to prevent re-renders
+          onChange={(e) => setGuess(+e.target.value)} // Update the ref value
         />
       </div>
       <div className="buttons">
